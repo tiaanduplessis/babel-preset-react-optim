@@ -1,0 +1,25 @@
+{
+  "name": "babel-preset-react-optim",
+  "version": "1.0.0",
+  "description": "Babel preset for optimizing react code",
+  "main": "index.js",
+  "repository": "https://github.com/tiaanduplessis/babel-preset-react-optim.git",
+  "author": "Tiaan du Plessis <tiaanduplessis@hotmail.com>",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "lint": "standard --fix"
+  },
+  "dependencies": {
+    "@babel/plugin-transform-react-constant-elements": "^7.9.0",
+    "@babel/plugin-transform-react-inline-elements": "^7.9.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "babel-plugin-transform-remove-console": "^6.9.4"
+  },
+  "devDependencies": {
+    "standard": "^14.3.3"
+  }
+}
