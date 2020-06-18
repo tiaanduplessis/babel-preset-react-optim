@@ -14,8 +14,8 @@
     "lint": "standard --fix"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-constant-elements": "^7.9.0",
-    "@babel/plugin-transform-react-inline-elements": "^7.9.0",
+    "@babel/plugin-transform-react-constant-elements": "^7.10.1",
+    "@babel/plugin-transform-react-inline-elements": "^7.10.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-plugin-transform-remove-console": "^6.9.4"
   },
