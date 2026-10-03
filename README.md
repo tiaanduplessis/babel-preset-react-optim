@@ -11,9 +11,12 @@
 ## Table of Contents
 
 - [About](#about)
-- [Features](#features)
+- [Plugins](#plugins)
 - [Usage](#usage)
+- [Options](#options)
+- [Compatibility](#compatibility)
 - [Install](#install)
+- [Development](#development)
 - [Contribute](#contribute)
 - [License](#License)
 
@@ -44,6 +47,58 @@ In `.babelrc`/`babel.config.js`:
 ```
 
 
+## Options
+
+All four plugins are enabled by default, in this order:
+
+| Option | Default |
+| --- | --- |
+| `removeConsole` | `{}` |
+| `removePropTypes` | `{ removeImport: true }` |
+| `inlineElements` | `{}` |
+| `constantElements` | `{}` |
+
+Set an option to `false` to disable that plugin. An options object is passed
+straight to the corresponding plugin; it replaces that plugin's default options
+rather than being merged with them. For example:
+
+```js
+{
+  env: {
+    production: {
+      presets: [['babel-preset-react-optim', {
+        removeConsole: { exclude: ['error', 'warn'] },
+        removePropTypes: { removeImport: false },
+        inlineElements: false
+      }]]
+    }
+  }
+}
+```
+
+The preset itself does not check `NODE_ENV`. Use Babel's `env.production` block
+as above to keep console calls and prop-type diagnostics during development.
+
+## Compatibility
+
+This preset continues to use Babel 7 and CommonJS. It does not compile every JSX
+construct by itself; use your usual JSX transform alongside it. The regression
+suite uses the classic JSX runtime and React 18. The inline-elements plugin is a
+legacy optimization, so verify compatibility with your React version and JSX
+runtime before enabling it. This update does not migrate to Babel 8 or change the
+preset's default options or plugin ordering.
+
+The inline-elements transform can reorder evaluation of a dynamic `key` relative
+to other props. Keep key/prop expressions free of side effects, or set
+`inlineElements: false` when their evaluation order matters. As with Babel's
+[inline-elements guidance](https://babeljs.io/docs/babel-plugin-transform-react-inline-elements),
+only enable these optimizations in production.
+
+Do not use `inlineElements` with React 19: it emits the legacy React element
+representation. Disable `inlineElements` and use the JSX transform appropriate
+for your React version. The classic-runtime opt-out path has been smoke-tested;
+this is not a general React 19 or automatic-runtime compatibility guarantee.
+
 ## Install
 
 This project uses [node](https://nodejs.org) and [npm](https://www.npmjs.com).
@@ -53,6 +108,22 @@ $ npm install babel-preset-react-optim
 $ # OR
 $ yarn add babel-preset-react-optim
 ```
+
+## Development
+
+Use Node.js 18 or newer for the test runner and Yarn Classic 1.22.22 for the lockfile:
+
+```sh
+yarn install --frozen-lockfile --ignore-scripts
+yarn lint
+yarn test
+```
+
+Linting checks files without modifying them. Tests cover plugin configuration,
+production/development transforms, reviewed output fixtures, and actual rendered
+JSX behavior. The package ships `index.js` directly, so no build step is needed.
+The test-runner requirement is separate from the package's consumer requirements;
+no new consumer `engines` restriction is added.
 
 ## Contribute
 
